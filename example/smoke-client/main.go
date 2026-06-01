@@ -218,13 +218,17 @@ func requestPermissionResult(raw json.RawMessage, policy string) (any, *jsonrpc.
 		return nil, jsonrpc.InvalidParams("invalid permission request", map[string]any{"error": err.Error()})
 	}
 	if policy == "cancel" {
-		return map[string]any{"outcome": "cancelled"}, nil
+		return permissionCancelled(), nil
 	}
 	optionID := selectPermissionOption(req.Options, policy)
 	if optionID == "" {
-		return map[string]any{"outcome": "cancelled"}, nil
+		return permissionCancelled(), nil
 	}
-	return map[string]any{"outcome": "selected", "optionId": optionID}, nil
+	return map[string]any{"outcome": map[string]any{"outcome": "selected", "optionId": optionID}}, nil
+}
+
+func permissionCancelled() map[string]any {
+	return map[string]any{"outcome": map[string]any{"outcome": "cancelled"}}
 }
 
 func selectPermissionOption(options []acp.PermissionOption, policy string) string {
