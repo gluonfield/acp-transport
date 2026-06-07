@@ -28,6 +28,7 @@ type schemaDef struct {
 	Required             []string              `json:"required"`
 	Ref                  string                `json:"$ref"`
 	AnyOf                []*schemaDef          `json:"anyOf"`
+	OneOf                []*schemaDef          `json:"oneOf"`
 	AllOf                []*schemaDef          `json:"allOf"`
 	Const                any                   `json:"const"`
 	Enum                 []any                 `json:"enum"`
@@ -161,6 +162,11 @@ func isObject(def *schemaDef) bool {
 func enum(def *schemaDef) (string, []any) {
 	values := append([]any(nil), def.Enum...)
 	for _, variant := range def.AnyOf {
+		if variant.Const != nil {
+			values = append(values, variant.Const)
+		}
+	}
+	for _, variant := range def.OneOf {
 		if variant.Const != nil {
 			values = append(values, variant.Const)
 		}

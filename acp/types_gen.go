@@ -369,7 +369,14 @@ type PermissionOption struct {
 
 type PermissionOptionID string
 
-type PermissionOptionKind json.RawMessage
+type PermissionOptionKind string
+
+const (
+	PermissionOptionKindAllowOnce    PermissionOptionKind = "allow_once"
+	PermissionOptionKindAllowAlways  PermissionOptionKind = "allow_always"
+	PermissionOptionKindRejectOnce   PermissionOptionKind = "reject_once"
+	PermissionOptionKindRejectAlways PermissionOptionKind = "reject_always"
+)
 
 type Plan struct {
 	Meta    map[string]any `json:"_meta,omitempty"`
@@ -383,9 +390,21 @@ type PlanEntry struct {
 	Status   PlanEntryStatus   `json:"status"`
 }
 
-type PlanEntryPriority json.RawMessage
+type PlanEntryPriority string
 
-type PlanEntryStatus json.RawMessage
+const (
+	PlanEntryPriorityHigh   PlanEntryPriority = "high"
+	PlanEntryPriorityMedium PlanEntryPriority = "medium"
+	PlanEntryPriorityLow    PlanEntryPriority = "low"
+)
+
+type PlanEntryStatus string
+
+const (
+	PlanEntryStatusPending    PlanEntryStatus = "pending"
+	PlanEntryStatusInProgress PlanEntryStatus = "in_progress"
+	PlanEntryStatusCompleted  PlanEntryStatus = "completed"
+)
 
 type PromptCapabilities struct {
 	Meta            map[string]any `json:"_meta,omitempty"`
@@ -605,7 +624,15 @@ type SetSessionModeResponse struct {
 	Meta map[string]any `json:"_meta,omitempty"`
 }
 
-type StopReason json.RawMessage
+type StopReason string
+
+const (
+	StopReasonEndTurn         StopReason = "end_turn"
+	StopReasonMaxTokens       StopReason = "max_tokens"
+	StopReasonMaxTurnRequests StopReason = "max_turn_requests"
+	StopReasonRefusal         StopReason = "refusal"
+	StopReasonCancelled       StopReason = "cancelled"
+)
 
 type Terminal struct {
 	Meta       map[string]any `json:"_meta,omitempty"`
@@ -666,7 +693,14 @@ type ToolCallLocation struct {
 	Path string         `json:"path"`
 }
 
-type ToolCallStatus json.RawMessage
+type ToolCallStatus string
+
+const (
+	ToolCallStatusPending    ToolCallStatus = "pending"
+	ToolCallStatusInProgress ToolCallStatus = "in_progress"
+	ToolCallStatusCompleted  ToolCallStatus = "completed"
+	ToolCallStatusFailed     ToolCallStatus = "failed"
+)
 
 type ToolCallUpdate struct {
 	Meta       map[string]any     `json:"_meta,omitempty"`
@@ -680,7 +714,20 @@ type ToolCallUpdate struct {
 	ToolCallID ToolCallID         `json:"toolCallId"`
 }
 
-type ToolKind json.RawMessage
+type ToolKind string
+
+const (
+	ToolKindRead       ToolKind = "read"
+	ToolKindEdit       ToolKind = "edit"
+	ToolKindDelete     ToolKind = "delete"
+	ToolKindMove       ToolKind = "move"
+	ToolKindSearch     ToolKind = "search"
+	ToolKindExecute    ToolKind = "execute"
+	ToolKindThink      ToolKind = "think"
+	ToolKindFetch      ToolKind = "fetch"
+	ToolKindSwitchMode ToolKind = "switch_mode"
+	ToolKindOther      ToolKind = "other"
+)
 
 type UnstructuredCommandInput struct {
 	Meta map[string]any `json:"_meta,omitempty"`
