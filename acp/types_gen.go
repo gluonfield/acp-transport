@@ -683,7 +683,7 @@ type ToolCall struct {
 	ToolCallID ToolCallID         `json:"toolCallId"`
 }
 
-type ToolCallContent json.RawMessage
+type ToolCallContent = json.RawMessage
 
 type ToolCallID string
 

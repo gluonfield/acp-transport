@@ -97,6 +97,62 @@ func TestDecodeSessionUpdate(t *testing.T) {
 	}
 }
 
+func TestDecodeRequestPermissionToolCallContent(t *testing.T) {
+	raw := json.RawMessage(`{
+		"sessionId": "session-1",
+		"toolCall": {
+			"toolCallId": "request-user-input-call-1",
+			"kind": "other",
+			"status": "pending",
+			"title": "Clarifying questions",
+			"content": [
+				{
+					"type": "content",
+					"content": {
+						"type": "text",
+						"text": "1. What should this page be for?"
+					}
+				}
+			],
+			"rawInput": {
+				"call_id": "call-1"
+			},
+			"_meta": {
+				"jaz.codex_request_user_input": {
+					"call_id": "call-1",
+					"turn_id": "turn-1",
+					"questions": [
+						{
+							"id": "audience",
+							"question": "Who is the audience?",
+							"options": [
+								{"label": "kids", "description": "Use simpler copy."}
+							]
+						}
+					]
+				}
+			}
+		},
+		"options": [
+			{"optionId": "__jaz_user_input_submit__", "name": "Submit answers", "kind": "allow_once"},
+			{"optionId": "__jaz_user_input_cancel__", "name": "Cancel", "kind": "reject_once"}
+		]
+	}`)
+	var req RequestPermissionRequest
+	if err := json.Unmarshal(raw, &req); err != nil {
+		t.Fatal(err)
+	}
+	if req.SessionID != "session-1" {
+		t.Fatalf("session id = %q", req.SessionID)
+	}
+	if len(req.ToolCall.Content) != 1 {
+		t.Fatalf("tool call content length = %d, want 1", len(req.ToolCall.Content))
+	}
+	if string(req.ToolCall.Content[0]) == "" {
+		t.Fatal("tool call content was not preserved")
+	}
+}
+
 func TestDecodeTextContentBlock(t *testing.T) {
 	block, err := DecodeContentBlock(ContentBlock(`{"type":"text","text":"hello"}`))
 	if err != nil {
