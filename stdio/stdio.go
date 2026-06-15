@@ -5,13 +5,14 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"sync"
 
 	"github.com/gluonfield/acp-transport/jsonrpc"
 )
 
-const maxMessageBytes = 10 << 20
+const maxMessageBytes = 64 << 20
 
 type Conn struct {
 	in  io.Reader
@@ -82,10 +83,14 @@ func (c *Conn) Close() error {
 }
 
 func (c *Conn) readLoop() {
-	scanner := bufio.NewScanner(c.in)
-	scanner.Buffer(make([]byte, 0, 64<<10), maxMessageBytes)
-	for scanner.Scan() {
-		line := bytes.TrimSpace(scanner.Bytes())
+	reader := bufio.NewReaderSize(c.in, 64<<10)
+	for {
+		raw, err := readLine(reader, maxMessageBytes)
+		if err != nil {
+			c.closeWith(err)
+			return
+		}
+		line := bytes.TrimSpace(raw)
 		if len(line) == 0 {
 			continue
 		}
@@ -100,11 +105,32 @@ func (c *Conn) readLoop() {
 			return
 		}
 	}
-	if err := scanner.Err(); err != nil {
-		c.closeWith(err)
-		return
+}
+
+func readLine(reader *bufio.Reader, max int) ([]byte, error) {
+	var line []byte
+	for {
+		chunk, err := reader.ReadSlice('\n')
+		line = append(line, chunk...)
+		if len(line) > max {
+			return nil, fmt.Errorf("message exceeds %d bytes", max)
+		}
+		if err == nil {
+			return trimLineEnd(line), nil
+		}
+		if errors.Is(err, bufio.ErrBufferFull) {
+			continue
+		}
+		if errors.Is(err, io.EOF) && len(line) > 0 {
+			return trimLineEnd(line), nil
+		}
+		return nil, err
 	}
-	c.closeWith(io.EOF)
+}
+
+func trimLineEnd(line []byte) []byte {
+	line = bytes.TrimSuffix(line, []byte{'\n'})
+	return bytes.TrimSuffix(line, []byte{'\r'})
 }
 
 func (c *Conn) closeWith(err error) {

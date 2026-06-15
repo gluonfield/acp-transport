@@ -21,7 +21,7 @@ const (
 	HeaderConnectionID = "Acp-Connection-Id"
 	HeaderSessionID    = "Acp-Session-Id"
 
-	defaultMaxMessageBytes = 10 << 20
+	defaultMaxMessageBytes = 64 << 20
 	defaultMaxQueuedEvents = 1024
 	defaultSSEBuffer       = 64
 )

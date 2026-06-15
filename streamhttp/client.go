@@ -282,18 +282,20 @@ func (c *Client) runStream(ctx context.Context, sessionID string) error {
 }
 
 func (c *Client) readSSE(ctx context.Context, sessionID string, body io.Reader) error {
-	scanner := bufio.NewScanner(body)
-	scanner.Buffer(make([]byte, 0, 64<<10), defaultMaxMessageBytes)
+	reader := bufio.NewReaderSize(body, 64<<10)
 	var data []byte
 	var id string
-	for scanner.Scan() {
+	for {
+		line, err := readLine(reader, defaultMaxMessageBytes)
+		if err != nil {
+			return err
+		}
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
 		default:
 		}
 
-		line := scanner.Bytes()
 		if len(line) == 0 {
 			if len(data) > 0 {
 				if err := c.handleSSEData(sessionID, id, data); err != nil {
@@ -320,12 +322,37 @@ func (c *Client) readSSE(ctx context.Context, sessionID string, body io.Reader) 
 			continue
 		}
 		value = bytes.TrimPrefix(value, []byte(" "))
+		if len(data)+len(value) > defaultMaxMessageBytes {
+			return fmt.Errorf("message exceeds %d bytes", defaultMaxMessageBytes)
+		}
 		data = append(data, value...)
 	}
-	if err := scanner.Err(); err != nil {
-		return err
+}
+
+func readLine(reader *bufio.Reader, max int) ([]byte, error) {
+	var line []byte
+	for {
+		chunk, err := reader.ReadSlice('\n')
+		line = append(line, chunk...)
+		if len(line) > max {
+			return nil, fmt.Errorf("message exceeds %d bytes", max)
+		}
+		if err == nil {
+			return trimLineEnd(line), nil
+		}
+		if errors.Is(err, bufio.ErrBufferFull) {
+			continue
+		}
+		if errors.Is(err, io.EOF) && len(line) > 0 {
+			return trimLineEnd(line), nil
+		}
+		return nil, err
 	}
-	return io.EOF
+}
+
+func trimLineEnd(line []byte) []byte {
+	line = bytes.TrimSuffix(line, []byte{'\n'})
+	return bytes.TrimSuffix(line, []byte{'\r'})
 }
 
 func (c *Client) handleSSEData(scope string, id string, data []byte) error {

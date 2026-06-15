@@ -176,6 +176,40 @@ func TestSessionCloseUnregistersSession(t *testing.T) {
 	}
 }
 
+func TestReadSSELargeEvent(t *testing.T) {
+	const size = 11 << 20
+	payload := strings.Repeat("x", size)
+	notify, err := jsonrpc.NewNotification("session/update", map[string]any{
+		"sessionId": "sess-1",
+		"update": map[string]any{
+			"sessionUpdate": "agent_message_chunk",
+			"content":       map[string]any{"type": "text", "text": payload},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	line, err := notify.MarshalJSONLine()
+	if err != nil {
+		t.Fatal(err)
+	}
+	client := &Client{
+		recv: make(chan *jsonrpc.Message, 1),
+		done: make(chan struct{}),
+	}
+	err = client.readSSE(context.Background(), "sess-1", strings.NewReader("data: "+strings.TrimSpace(string(line))+"\n\n"))
+	if !errors.Is(err, io.EOF) {
+		t.Fatalf("readSSE error = %v, want EOF", err)
+	}
+	got := receive(t, context.Background(), client)
+	if got.Method != "session/update" {
+		t.Fatalf("method = %q", got.Method)
+	}
+	if !strings.Contains(string(got.Params), payload[:1024]) {
+		t.Fatal("large payload was not preserved")
+	}
+}
+
 func fakeAgent(t *testing.T, conn jsonrpc.MessageConn) {
 	t.Helper()
 	for {
