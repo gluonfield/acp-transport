@@ -63,11 +63,16 @@ func (c *Conn) Receive(ctx context.Context) (*jsonrpc.Message, error) {
 	select {
 	case <-ctx.Done():
 		return nil, ctx.Err()
-	case msg, ok := <-c.msgs:
-		if !ok {
+	case msg := <-c.msgs:
+		return msg, nil
+	case <-c.done:
+		// Closed. Deliver any message buffered before close, then report closure.
+		select {
+		case msg := <-c.msgs:
+			return msg, nil
+		default:
 			return nil, c.closeErr()
 		}
-		return msg, nil
 	}
 }
 
@@ -141,8 +146,11 @@ func (c *Conn) closeWith(err error) {
 		c.errMu.Lock()
 		c.err = err
 		c.errMu.Unlock()
+		// Only close done. readLoop is a live sender on c.msgs, so closing
+		// c.msgs here would let readLoop's "case c.msgs <- msg" select arm
+		// panic with "send on closed channel" when it arrives at the select
+		// after close. readLoop observes shutdown via c.done instead.
 		close(c.done)
-		close(c.msgs)
 	})
 }
 
