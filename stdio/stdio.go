@@ -26,6 +26,10 @@ type Conn struct {
 	err     error
 }
 
+// New starts a Conn that reads newline-delimited JSON-RPC messages from in and
+// writes them to out. Close interrupts a read blocked in progress only if in is
+// an io.Closer (e.g. an *os.File pipe); with a reader that cannot be closed, the
+// internal read loop may stay blocked until in reaches EOF on its own.
 func New(in io.Reader, out io.Writer) *Conn {
 	c := &Conn{
 		in:   in,

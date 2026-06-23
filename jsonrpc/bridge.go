@@ -2,8 +2,6 @@ package jsonrpc
 
 import (
 	"context"
-	"errors"
-	"io"
 )
 
 func Bridge(ctx context.Context, a MessageConn, b MessageConn) error {
@@ -14,7 +12,7 @@ func Bridge(ctx context.Context, a MessageConn, b MessageConn) error {
 	err := <-errCh
 	_ = a.Close()
 	_ = b.Close()
-	if errors.Is(err, io.EOF) || errors.Is(err, ErrClosed) || errors.Is(err, context.Canceled) {
+	if IsClosed(err) {
 		return nil
 	}
 	return err

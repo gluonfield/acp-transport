@@ -8,28 +8,31 @@ import (
 	"time"
 )
 
-// gatedReader serves chunks[0] immediately, then blocks the Read that would
-// serve chunks[1] until gate is closed, closing atGate once it is blocked. It
-// lets a test position readLoop precisely: message 0 is parsed and buffered,
-// then readLoop is held just before reading message 1.
+// gatedReader serves chunks in order, but blocks the read that would serve
+// chunks[gateBefore] until gate is closed, closing atGate once it is blocked.
+// That pins readLoop at a precise point: every chunk before gateBefore is
+// parsed and buffered, then readLoop is held just before the next read. A
+// gateBefore at or past len(chunks) holds readLoop after consuming everything.
 type gatedReader struct {
-	chunks [][]byte
-	idx    int
-	atGate chan struct{}
-	gate   chan struct{}
-	once   sync.Once
+	chunks     [][]byte
+	gateBefore int
+	idx        int
+	atGate     chan struct{}
+	gate       chan struct{}
+	once       sync.Once
 }
 
-func newGatedReader(chunks ...[]byte) *gatedReader {
+func newGatedReader(gateBefore int, chunks ...[]byte) *gatedReader {
 	return &gatedReader{
-		chunks: chunks,
-		atGate: make(chan struct{}),
-		gate:   make(chan struct{}),
+		chunks:     chunks,
+		gateBefore: gateBefore,
+		atGate:     make(chan struct{}),
+		gate:       make(chan struct{}),
 	}
 }
 
 func (r *gatedReader) Read(p []byte) (int, error) {
-	if r.idx == 1 {
+	if r.idx == r.gateBefore {
 		r.once.Do(func() { close(r.atGate) })
 		<-r.gate
 	}
@@ -59,11 +62,11 @@ func TestCloseDuringFreshReadDoesNotPanic(t *testing.T) {
 	b := []byte(`{"jsonrpc":"2.0","method":"b"}` + "\n")
 
 	for i := 0; i < 200; i++ {
-		r := newGatedReader(a, b)
+		r := newGatedReader(1, a, b)
 		c := New(r, io.Discard)
 
-		<-r.atGate  // readLoop buffered "a" and is blocked reading "b"
-		c.Close()   // closes c.done (and, on the buggy code, c.msgs)
+		<-r.atGate    // readLoop buffered "a" and is blocked reading "b"
+		c.Close()     // closes c.done (and, on the buggy code, c.msgs)
 		close(r.gate) // release "b": readLoop now reaches the select post-close
 
 		// Give the released readLoop a moment to hit the select and either
@@ -78,9 +81,10 @@ func TestCloseDuringFreshReadDoesNotPanic(t *testing.T) {
 // connection as closed.
 func TestReceiveDrainsBufferedThenReportsClose(t *testing.T) {
 	a := []byte(`{"jsonrpc":"2.0","method":"a"}` + "\n")
-	r := newGatedReader(a, nil)
+	r := newGatedReader(1, a)
 	c := New(r, io.Discard)
 	defer c.Close()
+	t.Cleanup(func() { close(r.gate) }) // release readLoop's blocked read
 
 	<-r.atGate // "a" is buffered; readLoop is blocked reading the next line
 	c.Close()

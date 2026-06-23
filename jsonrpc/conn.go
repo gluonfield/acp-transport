@@ -9,6 +9,16 @@ import (
 
 var ErrClosed = errors.New("json-rpc connection closed")
 
+// IsClosed reports whether err signals an ordinary transport shutdown — a local
+// Close (ErrClosed), the peer ending the stream (io.EOF), or context
+// cancellation — rather than a genuine fault. It is the canonical predicate for
+// "this connection is just done"; prefer it over ad-hoc errors.Is chains.
+func IsClosed(err error) bool {
+	return errors.Is(err, ErrClosed) ||
+		errors.Is(err, io.EOF) ||
+		errors.Is(err, context.Canceled)
+}
+
 type MessageConn interface {
 	Send(context.Context, *Message) error
 	Receive(context.Context) (*Message, error)
@@ -74,10 +84,10 @@ func (c *channelConn) Receive(ctx context.Context) (*Message, error) {
 	case <-ctx.Done():
 		return nil, ctx.Err()
 	case <-c.done:
-		return nil, io.EOF
+		return nil, ErrClosed // local close; matches stdio.Conn
 	case msg, ok := <-c.in:
 		if !ok {
-			return nil, io.EOF
+			return nil, io.EOF // peer ended the stream
 		}
 		return msg.Clone(), nil
 	}

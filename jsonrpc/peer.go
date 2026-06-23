@@ -3,9 +3,7 @@ package jsonrpc
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
 	"sync"
 	"sync/atomic"
 )
@@ -48,9 +46,6 @@ func (p *Peer) Serve(ctx context.Context) error {
 		msg, err := p.conn.Receive(ctx)
 		if err != nil {
 			p.failPending()
-			if errors.Is(err, context.Canceled) || errors.Is(err, io.EOF) {
-				return err
-			}
 			return err
 		}
 
