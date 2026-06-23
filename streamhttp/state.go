@@ -10,6 +10,12 @@ import (
 	"github.com/gluonfield/acp-transport/jsonrpc"
 )
 
+// connState fans backend messages out to per-session SSE event channels. The
+// invariant that keeps that safe: a scope's event channel is only ever closed
+// by the goroutine that first removes it from scope.ch (setting scope.ch to nil)
+// while holding c.mu, and the close() always happens after releasing c.mu. That
+// guarantees each channel is closed exactly once and is never sent on after it
+// is unreferenced — the same hazard class that once crashed the stdio transport.
 var ErrEventHistoryGone = jsonrpc.InvalidRequest("event history is no longer available", nil)
 
 type event struct {

@@ -5,14 +5,12 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"sync"
 
+	"github.com/gluonfield/acp-transport/internal/wire"
 	"github.com/gluonfield/acp-transport/jsonrpc"
 )
-
-const maxMessageBytes = 64 << 20
 
 type Conn struct {
 	in  io.Reader
@@ -94,7 +92,7 @@ func (c *Conn) Close() error {
 func (c *Conn) readLoop() {
 	reader := bufio.NewReaderSize(c.in, 64<<10)
 	for {
-		raw, err := readLine(reader, maxMessageBytes)
+		raw, err := wire.ReadLine(reader, wire.MaxMessageBytes)
 		if err != nil {
 			c.closeWith(err)
 			return
@@ -114,32 +112,6 @@ func (c *Conn) readLoop() {
 			return
 		}
 	}
-}
-
-func readLine(reader *bufio.Reader, max int) ([]byte, error) {
-	var line []byte
-	for {
-		chunk, err := reader.ReadSlice('\n')
-		line = append(line, chunk...)
-		if len(line) > max {
-			return nil, fmt.Errorf("message exceeds %d bytes", max)
-		}
-		if err == nil {
-			return trimLineEnd(line), nil
-		}
-		if errors.Is(err, bufio.ErrBufferFull) {
-			continue
-		}
-		if errors.Is(err, io.EOF) && len(line) > 0 {
-			return trimLineEnd(line), nil
-		}
-		return nil, err
-	}
-}
-
-func trimLineEnd(line []byte) []byte {
-	line = bytes.TrimSuffix(line, []byte{'\n'})
-	return bytes.TrimSuffix(line, []byte{'\r'})
 }
 
 func (c *Conn) closeWith(err error) {

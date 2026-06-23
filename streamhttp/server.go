@@ -14,6 +14,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gluonfield/acp-transport/internal/wire"
 	"github.com/gluonfield/acp-transport/jsonrpc"
 )
 
@@ -21,7 +22,7 @@ const (
 	HeaderConnectionID = "Acp-Connection-Id"
 	HeaderSessionID    = "Acp-Session-Id"
 
-	defaultMaxMessageBytes = 64 << 20
+	defaultMaxMessageBytes = wire.MaxMessageBytes
 	defaultMaxQueuedEvents = 1024
 	defaultSSEBuffer       = 64
 )

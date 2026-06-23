@@ -20,6 +20,7 @@ import (
 
 	"golang.org/x/net/http2"
 
+	"github.com/gluonfield/acp-transport/internal/wire"
 	"github.com/gluonfield/acp-transport/jsonrpc"
 )
 
@@ -286,7 +287,7 @@ func (c *Client) readSSE(ctx context.Context, sessionID string, body io.Reader) 
 	var data []byte
 	var id string
 	for {
-		line, err := readLine(reader, defaultMaxMessageBytes)
+		line, err := wire.ReadLine(reader, defaultMaxMessageBytes)
 		if err != nil {
 			return err
 		}
@@ -327,32 +328,6 @@ func (c *Client) readSSE(ctx context.Context, sessionID string, body io.Reader) 
 		}
 		data = append(data, value...)
 	}
-}
-
-func readLine(reader *bufio.Reader, max int) ([]byte, error) {
-	var line []byte
-	for {
-		chunk, err := reader.ReadSlice('\n')
-		line = append(line, chunk...)
-		if len(line) > max {
-			return nil, fmt.Errorf("message exceeds %d bytes", max)
-		}
-		if err == nil {
-			return trimLineEnd(line), nil
-		}
-		if errors.Is(err, bufio.ErrBufferFull) {
-			continue
-		}
-		if errors.Is(err, io.EOF) && len(line) > 0 {
-			return trimLineEnd(line), nil
-		}
-		return nil, err
-	}
-}
-
-func trimLineEnd(line []byte) []byte {
-	line = bytes.TrimSuffix(line, []byte{'\n'})
-	return bytes.TrimSuffix(line, []byte{'\r'})
 }
 
 func (c *Client) handleSSEData(scope string, id string, data []byte) error {

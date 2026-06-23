@@ -35,6 +35,10 @@ func (u sessionUpdateBase) SessionUpdateKind() SessionUpdateKind {
 }
 func (u sessionUpdateBase) RawJSON() json.RawMessage { return append(json.RawMessage(nil), u.raw...) }
 
+func (u *sessionUpdateBase) setRaw(raw json.RawMessage) {
+	u.raw = append(json.RawMessage(nil), raw...)
+}
+
 type UserMessageChunkUpdate struct {
 	sessionUpdateBase
 	ContentChunk
@@ -89,6 +93,39 @@ type UnknownSessionUpdate struct {
 	sessionUpdateBase
 }
 
+// sessionUpdatePtr constrains *T to a session-update value whose embedded base
+// can be stamped with the original raw JSON after decoding.
+type sessionUpdatePtr[T any] interface {
+	*T
+	DecodedSessionUpdate
+	setRaw(json.RawMessage)
+}
+
+// decodeUpdateAs unmarshals raw into a fresh T, records the raw bytes on its
+// embedded base, and returns it as a value (matching the concrete types callers
+// type-assert on).
+func decodeUpdateAs[T DecodedSessionUpdate, PT sessionUpdatePtr[T]](raw json.RawMessage) (DecodedSessionUpdate, error) {
+	out := new(T)
+	if err := json.Unmarshal(raw, out); err != nil {
+		return nil, err
+	}
+	PT(out).setRaw(raw)
+	return *out, nil
+}
+
+var sessionUpdateDecoders = map[SessionUpdateKind]func(json.RawMessage) (DecodedSessionUpdate, error){
+	SessionUpdateUserMessageChunk:  decodeUpdateAs[UserMessageChunkUpdate],
+	SessionUpdateAgentMessageChunk: decodeUpdateAs[AgentMessageChunkUpdate],
+	SessionUpdateAgentThoughtChunk: decodeUpdateAs[AgentThoughtChunkUpdate],
+	SessionUpdateToolCall:          decodeUpdateAs[ToolCallSessionUpdate],
+	SessionUpdateToolCallUpdate:    decodeUpdateAs[ToolCallUpdateSessionUpdate],
+	SessionUpdatePlan:              decodeUpdateAs[PlanSessionUpdate],
+	SessionUpdateAvailableCommands: decodeUpdateAs[AvailableCommandsSessionUpdate],
+	SessionUpdateCurrentMode:       decodeUpdateAs[CurrentModeSessionUpdate],
+	SessionUpdateConfigOption:      decodeUpdateAs[ConfigOptionSessionUpdate],
+	SessionUpdateSessionInfo:       decodeUpdateAs[SessionInfoSessionUpdate],
+}
+
 func DecodeSessionUpdate(raw json.RawMessage) (DecodedSessionUpdate, error) {
 	var env struct {
 		SessionUpdate SessionUpdateKind `json:"sessionUpdate"`
@@ -96,79 +133,12 @@ func DecodeSessionUpdate(raw json.RawMessage) (DecodedSessionUpdate, error) {
 	if err := json.Unmarshal(raw, &env); err != nil {
 		return nil, err
 	}
-	base := sessionUpdateBase{SessionUpdate: env.SessionUpdate, raw: append(json.RawMessage(nil), raw...)}
-	switch env.SessionUpdate {
-	case SessionUpdateUserMessageChunk:
-		var out UserMessageChunkUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateAgentMessageChunk:
-		var out AgentMessageChunkUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateAgentThoughtChunk:
-		var out AgentThoughtChunkUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateToolCall:
-		var out ToolCallSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateToolCallUpdate:
-		var out ToolCallUpdateSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdatePlan:
-		var out PlanSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateAvailableCommands:
-		var out AvailableCommandsSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateCurrentMode:
-		var out CurrentModeSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateConfigOption:
-		var out ConfigOptionSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case SessionUpdateSessionInfo:
-		var out SessionInfoSessionUpdate
-		if err := decodeSessionUpdate(raw, base, &out, &out.sessionUpdateBase); err != nil {
-			return nil, err
-		}
-		return out, nil
-	default:
-		return UnknownSessionUpdate{sessionUpdateBase: base}, nil
+	if decode, ok := sessionUpdateDecoders[env.SessionUpdate]; ok {
+		return decode(raw)
 	}
-}
-
-func decodeSessionUpdate(raw json.RawMessage, base sessionUpdateBase, out any, targetBase *sessionUpdateBase) error {
-	if err := json.Unmarshal(raw, out); err != nil {
-		return err
-	}
-	*targetBase = base
-	return nil
+	base := sessionUpdateBase{SessionUpdate: env.SessionUpdate}
+	base.setRaw(raw)
+	return UnknownSessionUpdate{sessionUpdateBase: base}, nil
 }
 
 type ContentBlockKind string
@@ -240,6 +210,22 @@ type UnknownContentBlock struct {
 
 func (b UnknownContentBlock) ContentKind() ContentBlockKind { return b.Kind }
 
+func decodeContentAs[T DecodedContentBlock](data []byte) (DecodedContentBlock, error) {
+	var out T
+	if err := json.Unmarshal(data, &out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var contentBlockDecoders = map[ContentBlockKind]func([]byte) (DecodedContentBlock, error){
+	ContentBlockText:         decodeContentAs[TextContentBlock],
+	ContentBlockImage:        decodeContentAs[ImageContentBlock],
+	ContentBlockAudio:        decodeContentAs[AudioContentBlock],
+	ContentBlockResourceLink: decodeContentAs[ResourceLinkContentBlock],
+	ContentBlockResource:     decodeContentAs[EmbeddedResourceContentBlock],
+}
+
 func DecodeContentBlock(raw ContentBlock) (DecodedContentBlock, error) {
 	data := json.RawMessage(raw)
 	var env struct {
@@ -248,40 +234,10 @@ func DecodeContentBlock(raw ContentBlock) (DecodedContentBlock, error) {
 	if err := json.Unmarshal(data, &env); err != nil {
 		return nil, err
 	}
-	switch env.Type {
-	case ContentBlockText:
-		var out TextContentBlock
-		if err := json.Unmarshal(data, &out); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case ContentBlockImage:
-		var out ImageContentBlock
-		if err := json.Unmarshal(data, &out); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case ContentBlockAudio:
-		var out AudioContentBlock
-		if err := json.Unmarshal(data, &out); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case ContentBlockResourceLink:
-		var out ResourceLinkContentBlock
-		if err := json.Unmarshal(data, &out); err != nil {
-			return nil, err
-		}
-		return out, nil
-	case ContentBlockResource:
-		var out EmbeddedResourceContentBlock
-		if err := json.Unmarshal(data, &out); err != nil {
-			return nil, err
-		}
-		return out, nil
-	default:
-		return UnknownContentBlock{Kind: env.Type, Raw: append(json.RawMessage(nil), data...)}, nil
+	if decode, ok := contentBlockDecoders[env.Type]; ok {
+		return decode(data)
 	}
+	return UnknownContentBlock{Kind: env.Type, Raw: append(json.RawMessage(nil), data...)}, nil
 }
 
 const (
