@@ -153,6 +153,51 @@ func TestDecodeRequestPermissionToolCallContent(t *testing.T) {
 	}
 }
 
+func TestDecodeCreateElicitationResponseContent(t *testing.T) {
+	raw := json.RawMessage(`{
+		"action": "accept",
+		"content": {
+			"name": "Ada",
+			"count": 3,
+			"choices": ["fast", "safe"]
+		}
+	}`)
+	var resp CreateElicitationResponse
+	if err := json.Unmarshal(raw, &resp); err != nil {
+		t.Fatal(err)
+	}
+	if resp.Action != "accept" {
+		t.Fatalf("action = %q", resp.Action)
+	}
+	if string(resp.Content["name"]) != `"Ada"` {
+		t.Fatalf("content[name] = %s", resp.Content["name"])
+	}
+}
+
+func TestDecodeCreateElicitationRequestMode(t *testing.T) {
+	raw := json.RawMessage(`{
+		"mode": "form",
+		"sessionId": "session-1",
+		"message": "Need input",
+		"requestedSchema": {
+			"type": "object",
+			"properties": {
+				"name": {"type": "string", "title": "Name"}
+			}
+		}
+	}`)
+	var req CreateElicitationRequest
+	if err := json.Unmarshal(raw, &req); err != nil {
+		t.Fatal(err)
+	}
+	if req.Mode != "form" || req.SessionID == nil || *req.SessionID != "session-1" {
+		t.Fatalf("request = %#v", req)
+	}
+	if req.RequestedSchema == nil || req.RequestedSchema.Properties["name"].Type != "string" {
+		t.Fatalf("schema = %#v", req.RequestedSchema)
+	}
+}
+
 func TestDecodeTextContentBlock(t *testing.T) {
 	block, err := DecodeContentBlock(ContentBlock(`{"type":"text","text":"hello"}`))
 	if err != nil {

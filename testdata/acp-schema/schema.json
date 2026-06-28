@@ -6,7 +6,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "logout": {
           "anyOf": [
@@ -28,7 +31,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "auth": {
           "allOf": [
@@ -101,6 +107,15 @@
                 {
                   "allOf": [
                     {
+                      "$ref": "#/$defs/CompleteElicitationNotification"
+                    }
+                  ],
+                  "description": "**UNSTABLE**\n\nNotification that a URL-based elicitation has completed.",
+                  "title": "CompleteElicitationNotification"
+                },
+                {
+                  "allOf": [
+                    {
                       "$ref": "#/$defs/ExtNotification"
                     }
                   ],
@@ -116,7 +131,9 @@
           ]
         }
       },
-      "required": ["method"],
+      "required": [
+        "method"
+      ],
       "type": "object",
       "x-docs-ignore": true
     },
@@ -207,6 +224,15 @@
                 {
                   "allOf": [
                     {
+                      "$ref": "#/$defs/CreateElicitationRequest"
+                    }
+                  ],
+                  "description": "**UNSTABLE**\n\nRequests structured user input via a form or URL.",
+                  "title": "CreateElicitationRequest"
+                },
+                {
+                  "allOf": [
+                    {
                       "$ref": "#/$defs/ExtRequest"
                     }
                   ],
@@ -222,7 +248,10 @@
           ]
         }
       },
-      "required": ["id", "method"],
+      "required": [
+        "id",
+        "method"
+      ],
       "type": "object",
       "x-docs-ignore": true
     },
@@ -335,7 +364,10 @@
               "description": "All possible responses that an agent can send to a client.\n\nThis enum is used internally for routing RPC responses. You typically won't need\nto use this directly - the responses are handled automatically by the connection.\n\nThese are responses to the corresponding `ClientRequest` variants."
             }
           },
-          "required": ["id", "result"],
+          "required": [
+            "id",
+            "result"
+          ],
           "title": "Result",
           "type": "object"
         },
@@ -348,7 +380,10 @@
               "$ref": "#/$defs/RequestId"
             }
           },
-          "required": ["id", "error"],
+          "required": [
+            "id",
+            "error"
+          ],
           "title": "Error",
           "type": "object"
         }
@@ -361,20 +396,32 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "audience": {
           "items": {
             "$ref": "#/$defs/Role"
           },
-          "type": ["array", "null"]
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "lastModified": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "priority": {
           "format": "double",
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -385,7 +432,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "annotations": {
           "anyOf": [
@@ -404,7 +454,10 @@
           "type": "string"
         }
       },
-      "required": ["data", "mimeType"],
+      "required": [
+        "data",
+        "mimeType"
+      ],
       "type": "object"
     },
     "AuthMethod": {
@@ -427,11 +480,17 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "description": {
           "description": "Optional description providing more details about this authentication method.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "id": {
           "description": "Unique identifier for this authentication method.",
@@ -442,7 +501,10 @@
           "type": "string"
         }
       },
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "type": "object"
     },
     "AuthenticateRequest": {
@@ -451,14 +513,19 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "methodId": {
           "description": "The ID of the authentication method to use.\nMust be one of the methods advertised in the initialize response.",
           "type": "string"
         }
       },
-      "required": ["methodId"],
+      "required": [
+        "methodId"
+      ],
       "type": "object",
       "x-method": "authenticate",
       "x-side": "agent"
@@ -469,7 +536,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -482,7 +552,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "description": {
           "description": "Human-readable description of what the command does.",
@@ -504,7 +577,10 @@
           "type": "string"
         }
       },
-      "required": ["name", "description"],
+      "required": [
+        "name",
+        "description"
+      ],
       "type": "object"
     },
     "AvailableCommandInput": {
@@ -527,7 +603,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "availableCommands": {
           "description": "Commands the agent can execute",
@@ -537,7 +616,9 @@
           "type": "array"
         }
       },
-      "required": ["availableCommands"],
+      "required": [
+        "availableCommands"
+      ],
       "type": "object"
     },
     "BlobResourceContents": {
@@ -546,19 +627,28 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "blob": {
           "type": "string"
         },
         "mimeType": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "uri": {
           "type": "string"
         }
       },
-      "required": ["blob", "uri"],
+      "required": [
+        "blob",
+        "uri"
+      ],
       "type": "object"
     },
     "CancelNotification": {
@@ -567,7 +657,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -578,7 +671,9 @@
           "description": "The ID of the session to cancel operations for."
         }
       },
-      "required": ["sessionId"],
+      "required": [
+        "sessionId"
+      ],
       "type": "object",
       "x-method": "session/cancel",
       "x-side": "agent"
@@ -589,7 +684,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "fs": {
           "allOf": [
@@ -602,6 +700,14 @@
             "writeTextFile": false
           },
           "description": "File system capabilities supported by the client.\nDetermines which file operations the agent can request."
+        },
+        "elicitation": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationCapabilities"
+            }
+          ],
+          "description": "**UNSTABLE**\n\nElicitation capabilities supported by the client.\nDetermines which elicitation modes the agent may use."
         },
         "terminal": {
           "default": false,
@@ -647,7 +753,9 @@
           ]
         }
       },
-      "required": ["method"],
+      "required": [
+        "method"
+      ],
       "type": "object",
       "x-docs-ignore": true
     },
@@ -780,7 +888,10 @@
           ]
         }
       },
-      "required": ["id", "method"],
+      "required": [
+        "id",
+        "method"
+      ],
       "type": "object",
       "x-docs-ignore": true
     },
@@ -860,6 +971,14 @@
                 {
                   "allOf": [
                     {
+                      "$ref": "#/$defs/CreateElicitationResponse"
+                    }
+                  ],
+                  "title": "CreateElicitationResponse"
+                },
+                {
+                  "allOf": [
+                    {
                       "$ref": "#/$defs/ExtResponse"
                     }
                   ],
@@ -869,7 +988,10 @@
               "description": "All possible responses that a client can send to an agent.\n\nThis enum is used internally for routing RPC responses. You typically won't need\nto use this directly - the responses are handled automatically by the connection.\n\nThese are responses to the corresponding `AgentRequest` variants."
             }
           },
-          "required": ["id", "result"],
+          "required": [
+            "id",
+            "result"
+          ],
           "title": "Result",
           "type": "object"
         },
@@ -882,7 +1004,10 @@
               "$ref": "#/$defs/RequestId"
             }
           },
-          "required": ["id", "error"],
+          "required": [
+            "id",
+            "error"
+          ],
           "title": "Error",
           "type": "object"
         }
@@ -895,7 +1020,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -906,7 +1034,9 @@
           "description": "The ID of the session to close."
         }
       },
-      "required": ["sessionId"],
+      "required": [
+        "sessionId"
+      ],
       "type": "object",
       "x-method": "session/close",
       "x-side": "agent"
@@ -917,7 +1047,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -930,7 +1063,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "configOptions": {
           "description": "The full set of configuration options and their current values.",
@@ -940,7 +1076,9 @@
           "type": "array"
         }
       },
-      "required": ["configOptions"],
+      "required": [
+        "configOptions"
+      ],
       "type": "object"
     },
     "Content": {
@@ -949,7 +1087,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "allOf": [
@@ -960,7 +1101,9 @@
           "description": "The actual content block."
         }
       },
-      "required": ["content"],
+      "required": [
+        "content"
+      ],
       "type": "object"
     },
     "ContentBlock": {
@@ -982,7 +1125,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -998,7 +1143,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -1014,7 +1161,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -1030,7 +1179,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -1046,7 +1197,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         }
       ]
@@ -1057,7 +1210,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "allOf": [
@@ -1068,7 +1224,9 @@
           "description": "A single item of content"
         }
       },
-      "required": ["content"],
+      "required": [
+        "content"
+      ],
       "type": "object"
     },
     "CreateTerminalRequest": {
@@ -1077,7 +1235,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "args": {
           "description": "Array of command arguments.",
@@ -1092,7 +1253,10 @@
         },
         "cwd": {
           "description": "Working directory for the command (absolute path).",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "env": {
           "description": "Environment variables for the command.",
@@ -1105,7 +1269,10 @@
           "description": "Maximum number of output bytes to retain.\n\nWhen the limit is exceeded, the Client truncates from the beginning of the output\nto stay within the limit.\n\nThe Client MUST ensure truncation happens at a character boundary to maintain valid\nstring output, even if this means the retained output is slightly less than the\nspecified limit.",
           "format": "uint64",
           "minimum": 0,
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -1116,7 +1283,10 @@
           "description": "The session ID for this request."
         }
       },
-      "required": ["sessionId", "command"],
+      "required": [
+        "sessionId",
+        "command"
+      ],
       "type": "object",
       "x-method": "terminal/create",
       "x-side": "client"
@@ -1127,14 +1297,19 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "terminalId": {
           "description": "The unique identifier for the created terminal.",
           "type": "string"
         }
       },
-      "required": ["terminalId"],
+      "required": [
+        "terminalId"
+      ],
       "type": "object",
       "x-method": "terminal/create",
       "x-side": "client"
@@ -1145,7 +1320,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "currentModeId": {
           "allOf": [
@@ -1156,7 +1334,9 @@
           "description": "The ID of the current mode"
         }
       },
-      "required": ["currentModeId"],
+      "required": [
+        "currentModeId"
+      ],
       "type": "object"
     },
     "Diff": {
@@ -1165,7 +1345,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "newText": {
           "description": "The new content after modification.",
@@ -1173,14 +1356,20 @@
         },
         "oldText": {
           "description": "The original content (None for new files).",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "path": {
           "description": "The file path being modified.",
           "type": "string"
         }
       },
-      "required": ["path", "newText"],
+      "required": [
+        "path",
+        "newText"
+      ],
       "type": "object"
     },
     "EmbeddedResource": {
@@ -1189,7 +1378,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "annotations": {
           "anyOf": [
@@ -1205,7 +1397,9 @@
           "$ref": "#/$defs/EmbeddedResourceResource"
         }
       },
-      "required": ["resource"],
+      "required": [
+        "resource"
+      ],
       "type": "object"
     },
     "EmbeddedResourceResource": {
@@ -1235,7 +1429,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "name": {
           "description": "The name of the environment variable.",
@@ -1246,7 +1443,10 @@
           "type": "string"
         }
       },
-      "required": ["name", "value"],
+      "required": [
+        "name",
+        "value"
+      ],
       "type": "object"
     },
     "Error": {
@@ -1268,7 +1468,10 @@
           "type": "string"
         }
       },
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "type": "object"
     },
     "ErrorCode": {
@@ -1334,6 +1537,430 @@
     "ExtNotification": {
       "description": "Allows the Agent to send an arbitrary notification that is not part of the ACP spec.\nExtension notifications provide a way to send one-way messages for custom functionality\nwhile maintaining protocol compatibility.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
     },
+    "CompleteElicitationNotification": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nNotification sent by the agent when a URL-based elicitation is complete.",
+      "type": "object",
+      "properties": {
+        "elicitationId": {
+          "description": "The ID of the elicitation that completed.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationId"
+            }
+          ]
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "elicitationId"
+      ],
+      "x-side": "client",
+      "x-method": "elicitation/complete"
+    },
+    "CreateElicitationRequest": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nRequest from the agent to elicit structured user input.\n\nThe agent sends this to the client to request information from the user,\neither via a form or by directing them to a URL.\nElicitations are tied to a session (optionally a tool call) or a request.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "A human-readable message describing what input is needed.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "oneOf": [
+        {
+          "description": "Form-based elicitation where the client renders a form from the provided schema.",
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "const": "form"
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationFormMode"
+            }
+          ]
+        },
+        {
+          "description": "URL-based elicitation where the client directs the user to a URL.",
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "const": "url"
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationUrlMode"
+            }
+          ]
+        }
+      ],
+      "discriminator": {
+        "propertyName": "mode"
+      },
+      "required": [
+        "message"
+      ],
+      "x-side": "client",
+      "x-method": "elicitation/create"
+    },
+    "CreateElicitationResponse": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nResponse from the client to an elicitation request.",
+      "type": "object",
+      "properties": {
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "oneOf": [
+        {
+          "description": "The user accepted and provided content.",
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "const": "accept"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationAcceptAction"
+            }
+          ]
+        },
+        {
+          "description": "The user declined the elicitation.",
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "const": "decline"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        {
+          "description": "The elicitation was cancelled.",
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "const": "cancel"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      ],
+      "discriminator": {
+        "propertyName": "action"
+      },
+      "x-side": "client",
+      "x-method": "elicitation/create"
+    },
+    "ElicitationCapabilities": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nElicitation capabilities supported by the client.",
+      "type": "object",
+      "properties": {
+        "form": {
+          "description": "Whether the client supports form-based elicitation.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ElicitationFormCapabilities"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "x-deserialize-default-on-error": true
+        },
+        "url": {
+          "description": "Whether the client supports URL-based elicitation.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ElicitationUrlCapabilities"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "x-deserialize-default-on-error": true
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "ElicitationFormCapabilities": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nForm-based elicitation capabilities.",
+      "type": "object",
+      "properties": {
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "ElicitationId": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nUnique identifier for an elicitation.",
+      "type": "string"
+    },
+    "ElicitationPropertySchema": {
+      "description": "Property schema for elicitation form fields.\n\nEach variant corresponds to a JSON Schema `\"type\"` value.\nSingle-select enums use the `String` variant with `enum` or `oneOf` set.\nMulti-select enums use the `Array` variant.",
+      "oneOf": [
+        {
+          "description": "String property (or single-select enum when `enum`/`oneOf` is set).",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/StringPropertySchema"
+            }
+          ]
+        },
+        {
+          "description": "Number (floating-point) property.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "number"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/NumberPropertySchema"
+            }
+          ]
+        },
+        {
+          "description": "Integer property.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "integer"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/IntegerPropertySchema"
+            }
+          ]
+        },
+        {
+          "description": "Boolean property.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "boolean"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/BooleanPropertySchema"
+            }
+          ]
+        },
+        {
+          "description": "Multi-select array property.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "array"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/$defs/MultiSelectPropertySchema"
+            }
+          ]
+        }
+      ],
+      "discriminator": {
+        "propertyName": "type"
+      }
+    },
+    "ElicitationSchema": {
+      "description": "Type-safe elicitation schema for requesting structured user input.\n\nThis represents a JSON Schema object with primitive-typed properties,\nas required by the elicitation specification.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type discriminator. Always `\"object\"`.",
+          "default": "object",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationSchemaType"
+            }
+          ]
+        },
+        "title": {
+          "description": "Optional title for the schema.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "properties": {
+          "description": "Property definitions (must be primitive types).",
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "$ref": "#/$defs/ElicitationPropertySchema"
+          }
+        },
+        "required": {
+          "description": "List of required property names.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "description": "Optional description of what this schema represents.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "ElicitationSchemaType": {
+      "description": "Type discriminator for elicitation schemas.",
+      "oneOf": [
+        {
+          "description": "Object schema type.",
+          "type": "string",
+          "const": "object"
+        }
+      ]
+    },
+    "EnumOption": {
+      "description": "A titled enum option with a const value and human-readable title.",
+      "type": "object",
+      "properties": {
+        "const": {
+          "description": "The constant value for this option.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Human-readable title for this option.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "const",
+        "title"
+      ]
+    },
+    "MultiSelectItems": {
+      "description": "Items for a multi-select (array) property schema.",
+      "anyOf": [
+        {
+          "title": "Untitled",
+          "description": "Untitled multi-select items with plain string values.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/UntitledMultiSelectItems"
+            }
+          ]
+        },
+        {
+          "title": "Titled",
+          "description": "Titled multi-select items with human-readable labels.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/TitledMultiSelectItems"
+            }
+          ]
+        }
+      ]
+    },
     "ExtRequest": {
       "description": "Allows for sending an arbitrary request that is not part of the ACP spec.\nExtension methods provide a way to add custom functionality while maintaining\nprotocol compatibility.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)"
     },
@@ -1346,7 +1973,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "readTextFile": {
           "default": false,
@@ -1367,7 +1997,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "name": {
           "description": "The name of the HTTP header.",
@@ -1378,7 +2011,10 @@
           "type": "string"
         }
       },
-      "required": ["name", "value"],
+      "required": [
+        "name",
+        "value"
+      ],
       "type": "object"
     },
     "ImageContent": {
@@ -1387,7 +2023,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "annotations": {
           "anyOf": [
@@ -1406,10 +2045,16 @@
           "type": "string"
         },
         "uri": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
-      "required": ["data", "mimeType"],
+      "required": [
+        "data",
+        "mimeType"
+      ],
       "type": "object"
     },
     "Implementation": {
@@ -1418,7 +2063,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "name": {
           "description": "Intended for programmatic or logical use, but can be used as a display\nname fallback if title isn’t present.",
@@ -1426,14 +2074,20 @@
         },
         "title": {
           "description": "Intended for UI and end-user contexts — optimized to be human-readable\nand easily understood.\n\nIf not provided, the name should be used for display.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "version": {
           "description": "Version of the implementation. Can be displayed to the user or used\nfor debugging or metrics purposes. (e.g. \"1.0.0\").",
           "type": "string"
         }
       },
-      "required": ["name", "version"],
+      "required": [
+        "name",
+        "version"
+      ],
       "type": "object"
     },
     "InitializeRequest": {
@@ -1442,7 +2096,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "clientCapabilities": {
           "allOf": [
@@ -1479,7 +2136,9 @@
           "description": "The latest protocol version supported by the client."
         }
       },
-      "required": ["protocolVersion"],
+      "required": [
+        "protocolVersion"
+      ],
       "type": "object",
       "x-method": "initialize",
       "x-side": "agent"
@@ -1490,7 +2149,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "agentCapabilities": {
           "allOf": [
@@ -1542,7 +2204,9 @@
           "description": "The protocol version the client specified if supported by the agent,\nor the latest protocol version supported by the agent.\n\nThe client should disconnect, if it doesn't support this version."
         }
       },
-      "required": ["protocolVersion"],
+      "required": [
+        "protocolVersion"
+      ],
       "type": "object",
       "x-method": "initialize",
       "x-side": "agent"
@@ -1553,7 +2217,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -1568,7 +2235,10 @@
           "type": "string"
         }
       },
-      "required": ["sessionId", "terminalId"],
+      "required": [
+        "sessionId",
+        "terminalId"
+      ],
       "type": "object",
       "x-method": "terminal/kill",
       "x-side": "client"
@@ -1579,7 +2249,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -1592,15 +2265,24 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "cursor": {
           "description": "Opaque cursor token from a previous response's nextCursor field for cursor-based pagination",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "cwd": {
           "description": "Filter sessions by working directory. Must be an absolute path.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -1613,11 +2295,17 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "nextCursor": {
           "description": "Opaque cursor token. If present, pass this in the next request's cursor parameter\nto fetch the next page. If absent, there are no more results.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "sessions": {
           "description": "Array of session information objects",
@@ -1627,7 +2315,9 @@
           "type": "array"
         }
       },
-      "required": ["sessions"],
+      "required": [
+        "sessions"
+      ],
       "type": "object",
       "x-method": "session/list",
       "x-side": "agent"
@@ -1638,7 +2328,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "cwd": {
           "description": "The working directory for this session.",
@@ -1660,7 +2353,11 @@
           "description": "The ID of the session to load."
         }
       },
-      "required": ["mcpServers", "cwd", "sessionId"],
+      "required": [
+        "mcpServers",
+        "cwd",
+        "sessionId"
+      ],
       "type": "object",
       "x-method": "session/load",
       "x-side": "agent"
@@ -1671,14 +2368,20 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "configOptions": {
           "description": "Initial session configuration options if supported by the Agent.",
           "items": {
             "$ref": "#/$defs/SessionConfigOption"
           },
-          "type": ["array", "null"]
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "modes": {
           "anyOf": [
@@ -1702,7 +2405,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -1713,7 +2419,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -1726,7 +2435,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -1739,7 +2451,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "http": {
           "default": false,
@@ -1769,7 +2484,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -1785,7 +2502,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -1806,7 +2525,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "headers": {
           "description": "HTTP headers to set when making requests to the MCP server.",
@@ -1824,7 +2546,11 @@
           "type": "string"
         }
       },
-      "required": ["name", "url", "headers"],
+      "required": [
+        "name",
+        "url",
+        "headers"
+      ],
       "type": "object"
     },
     "McpServerSse": {
@@ -1833,7 +2559,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "headers": {
           "description": "HTTP headers to set when making requests to the MCP server.",
@@ -1851,7 +2580,11 @@
           "type": "string"
         }
       },
-      "required": ["name", "url", "headers"],
+      "required": [
+        "name",
+        "url",
+        "headers"
+      ],
       "type": "object"
     },
     "McpServerStdio": {
@@ -1860,7 +2593,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "args": {
           "description": "Command-line arguments to pass to the MCP server.",
@@ -1885,7 +2621,12 @@
           "type": "string"
         }
       },
-      "required": ["name", "command", "args", "env"],
+      "required": [
+        "name",
+        "command",
+        "args",
+        "env"
+      ],
       "type": "object"
     },
     "NewSessionRequest": {
@@ -1894,7 +2635,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "cwd": {
           "description": "The working directory for this session. Must be an absolute path.",
@@ -1908,7 +2652,10 @@
           "type": "array"
         }
       },
-      "required": ["cwd", "mcpServers"],
+      "required": [
+        "cwd",
+        "mcpServers"
+      ],
       "type": "object",
       "x-method": "session/new",
       "x-side": "agent"
@@ -1919,14 +2666,20 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "configOptions": {
           "description": "Initial session configuration options if supported by the Agent.",
           "items": {
             "$ref": "#/$defs/SessionConfigOption"
           },
-          "type": ["array", "null"]
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "modes": {
           "anyOf": [
@@ -1948,7 +2701,9 @@
           "description": "Unique identifier for the created session.\n\nUsed in all subsequent requests for this conversation."
         }
       },
-      "required": ["sessionId"],
+      "required": [
+        "sessionId"
+      ],
       "type": "object",
       "x-method": "session/new",
       "x-side": "agent"
@@ -1959,7 +2714,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "kind": {
           "allOf": [
@@ -1982,7 +2740,11 @@
           "description": "Unique identifier for this permission option."
         }
       },
-      "required": ["optionId", "name", "kind"],
+      "required": [
+        "optionId",
+        "name",
+        "kind"
+      ],
       "type": "object"
     },
     "PermissionOptionId": {
@@ -2020,7 +2782,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "entries": {
           "description": "The list of tasks to be accomplished.\n\nWhen updating a plan, the agent must send a complete list of all entries\nwith their current status. The client replaces the entire plan with each update.",
@@ -2030,7 +2795,9 @@
           "type": "array"
         }
       },
-      "required": ["entries"],
+      "required": [
+        "entries"
+      ],
       "type": "object"
     },
     "PlanEntry": {
@@ -2039,7 +2806,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "description": "Human-readable description of what this task aims to accomplish.",
@@ -2062,7 +2832,11 @@
           "description": "Current execution status of this task."
         }
       },
-      "required": ["content", "priority", "status"],
+      "required": [
+        "content",
+        "priority",
+        "status"
+      ],
       "type": "object"
     },
     "PlanEntryPriority": {
@@ -2111,7 +2885,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "audio": {
           "default": false,
@@ -2137,7 +2914,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "prompt": {
           "description": "The blocks of content that compose the user's message.\n\nAs a baseline, the Agent MUST support [`ContentBlock::Text`] and [`ContentBlock::ResourceLink`],\nwhile other variants are optionally enabled via [`PromptCapabilities`].\n\nThe Client MUST adapt its interface according to [`PromptCapabilities`].\n\nThe client MAY include referenced pieces of context as either\n[`ContentBlock::Resource`] or [`ContentBlock::ResourceLink`].\n\nWhen available, [`ContentBlock::Resource`] is preferred\nas it avoids extra round-trips and allows the message to include\npieces of context from sources the agent may not have access to.",
@@ -2155,7 +2935,10 @@
           "description": "The ID of the session to send this user message to"
         }
       },
-      "required": ["sessionId", "prompt"],
+      "required": [
+        "sessionId",
+        "prompt"
+      ],
       "type": "object",
       "x-method": "session/prompt",
       "x-side": "agent"
@@ -2166,7 +2949,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "stopReason": {
           "allOf": [
@@ -2177,7 +2963,9 @@
           "description": "Indicates why the agent stopped processing the turn."
         }
       },
-      "required": ["stopReason"],
+      "required": [
+        "stopReason"
+      ],
       "type": "object",
       "x-method": "session/prompt",
       "x-side": "agent"
@@ -2195,19 +2983,28 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "limit": {
           "description": "Maximum number of lines to read.",
           "format": "uint32",
           "minimum": 0,
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "line": {
           "description": "Line number to start reading from (1-based).",
           "format": "uint32",
           "minimum": 0,
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "path": {
           "description": "Absolute path to the file to read.",
@@ -2222,7 +3019,10 @@
           "description": "The session ID for this request."
         }
       },
-      "required": ["sessionId", "path"],
+      "required": [
+        "sessionId",
+        "path"
+      ],
       "type": "object",
       "x-method": "fs/read_text_file",
       "x-side": "client"
@@ -2233,13 +3033,18 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "type": "string"
         }
       },
-      "required": ["content"],
+      "required": [
+        "content"
+      ],
       "type": "object",
       "x-method": "fs/read_text_file",
       "x-side": "client"
@@ -2250,7 +3055,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -2265,7 +3073,10 @@
           "type": "string"
         }
       },
-      "required": ["sessionId", "terminalId"],
+      "required": [
+        "sessionId",
+        "terminalId"
+      ],
       "type": "object",
       "x-method": "terminal/release",
       "x-side": "client"
@@ -2276,7 +3087,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -2315,7 +3129,9 @@
               "type": "string"
             }
           },
-          "required": ["outcome"],
+          "required": [
+            "outcome"
+          ],
           "type": "object"
         },
         {
@@ -2331,7 +3147,9 @@
               "type": "string"
             }
           },
-          "required": ["outcome"],
+          "required": [
+            "outcome"
+          ],
           "type": "object"
         }
       ]
@@ -2342,7 +3160,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "options": {
           "description": "Available permission options for the user to choose from.",
@@ -2368,7 +3189,11 @@
           "description": "Details about the tool call requiring permission."
         }
       },
-      "required": ["sessionId", "toolCall", "options"],
+      "required": [
+        "sessionId",
+        "toolCall",
+        "options"
+      ],
       "type": "object",
       "x-method": "session/request_permission",
       "x-side": "client"
@@ -2379,7 +3204,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "outcome": {
           "allOf": [
@@ -2390,7 +3218,9 @@
           "description": "The user's decision on the permission request."
         }
       },
-      "required": ["outcome"],
+      "required": [
+        "outcome"
+      ],
       "type": "object",
       "x-method": "session/request_permission",
       "x-side": "client"
@@ -2401,7 +3231,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "annotations": {
           "anyOf": [
@@ -2414,26 +3247,41 @@
           ]
         },
         "description": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "mimeType": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "name": {
           "type": "string"
         },
         "size": {
           "format": "int64",
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "title": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "uri": {
           "type": "string"
         }
       },
-      "required": ["name", "uri"],
+      "required": [
+        "name",
+        "uri"
+      ],
       "type": "object"
     },
     "ResumeSessionRequest": {
@@ -2442,7 +3290,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "cwd": {
           "description": "The working directory for this session.",
@@ -2464,7 +3315,10 @@
           "description": "The ID of the session to resume."
         }
       },
-      "required": ["sessionId", "cwd"],
+      "required": [
+        "sessionId",
+        "cwd"
+      ],
       "type": "object",
       "x-method": "session/resume",
       "x-side": "agent"
@@ -2475,14 +3329,20 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "configOptions": {
           "description": "Initial session configuration options if supported by the Agent.",
           "items": {
             "$ref": "#/$defs/SessionConfigOption"
           },
-          "type": ["array", "null"]
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "modes": {
           "anyOf": [
@@ -2502,7 +3362,10 @@
     },
     "Role": {
       "description": "The sender or recipient of messages and data in a conversation.",
-      "enum": ["assistant", "user"],
+      "enum": [
+        "assistant",
+        "user"
+      ],
       "type": "string"
     },
     "SelectedPermissionOutcome": {
@@ -2511,7 +3374,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "optionId": {
           "allOf": [
@@ -2522,7 +3388,9 @@
           "description": "The ID of the option the user selected."
         }
       },
-      "required": ["optionId"],
+      "required": [
+        "optionId"
+      ],
       "type": "object"
     },
     "SessionCapabilities": {
@@ -2531,7 +3399,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "close": {
           "anyOf": [
@@ -2575,7 +3446,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -2607,7 +3481,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         }
       ],
@@ -2615,7 +3491,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "category": {
           "anyOf": [
@@ -2630,7 +3509,10 @@
         },
         "description": {
           "description": "Optional description for the Client to display to the user.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "id": {
           "allOf": [
@@ -2645,7 +3527,10 @@
           "type": "string"
         }
       },
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "type": "object"
     },
     "SessionConfigOptionCategory": {
@@ -2693,7 +3578,10 @@
           "description": "The set of selectable options."
         }
       },
-      "required": ["currentValue", "options"],
+      "required": [
+        "currentValue",
+        "options"
+      ],
       "type": "object"
     },
     "SessionConfigSelectGroup": {
@@ -2702,7 +3590,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "group": {
           "allOf": [
@@ -2724,7 +3615,11 @@
           "type": "array"
         }
       },
-      "required": ["group", "name", "options"],
+      "required": [
+        "group",
+        "name",
+        "options"
+      ],
       "type": "object"
     },
     "SessionConfigSelectOption": {
@@ -2733,11 +3628,17 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "description": {
           "description": "Optional description for this option value.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "name": {
           "description": "Human-readable label for this option value.",
@@ -2752,7 +3653,10 @@
           "description": "Unique identifier for this option value."
         }
       },
-      "required": ["value", "name"],
+      "required": [
+        "value",
+        "name"
+      ],
       "type": "object"
     },
     "SessionConfigSelectOptions": {
@@ -2790,7 +3694,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "cwd": {
           "description": "The working directory for this session. Must be an absolute path.",
@@ -2806,14 +3713,23 @@
         },
         "title": {
           "description": "Human-readable title for the session",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "updatedAt": {
           "description": "ISO 8601 timestamp of last activity",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
-      "required": ["sessionId", "cwd"],
+      "required": [
+        "sessionId",
+        "cwd"
+      ],
       "type": "object"
     },
     "SessionInfoUpdate": {
@@ -2822,15 +3738,24 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "title": {
           "description": "Human-readable title for the session. Set to null to clear.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "updatedAt": {
           "description": "ISO 8601 timestamp of last activity. Set to null to clear.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -2841,7 +3766,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -2852,10 +3780,16 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "description": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "id": {
           "$ref": "#/$defs/SessionModeId"
@@ -2864,7 +3798,10 @@
           "type": "string"
         }
       },
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "type": "object"
     },
     "SessionModeId": {
@@ -2877,7 +3814,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "availableModes": {
           "description": "The set of modes that the Agent can operate in",
@@ -2895,7 +3835,10 @@
           "description": "The current mode the Agent is in."
         }
       },
-      "required": ["currentModeId", "availableModes"],
+      "required": [
+        "currentModeId",
+        "availableModes"
+      ],
       "type": "object"
     },
     "SessionNotification": {
@@ -2904,7 +3847,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -2923,7 +3869,10 @@
           "description": "The actual update content."
         }
       },
-      "required": ["sessionId", "update"],
+      "required": [
+        "sessionId",
+        "update"
+      ],
       "type": "object",
       "x-method": "session/update",
       "x-side": "client"
@@ -2934,7 +3883,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -2958,7 +3910,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -2974,7 +3928,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -2990,7 +3946,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3006,7 +3964,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3022,7 +3982,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3038,7 +4000,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3054,7 +4018,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3070,7 +4036,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3086,7 +4054,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         },
         {
@@ -3102,7 +4072,9 @@
               "type": "string"
             }
           },
-          "required": ["sessionUpdate"],
+          "required": [
+            "sessionUpdate"
+          ],
           "type": "object"
         }
       ]
@@ -3113,7 +4085,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "configId": {
           "allOf": [
@@ -3140,7 +4115,11 @@
           "description": "The ID of the configuration option value to set."
         }
       },
-      "required": ["sessionId", "configId", "value"],
+      "required": [
+        "sessionId",
+        "configId",
+        "value"
+      ],
       "type": "object",
       "x-method": "session/set_config_option",
       "x-side": "agent"
@@ -3151,7 +4130,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "configOptions": {
           "description": "The full set of configuration options and their current values.",
@@ -3161,7 +4143,9 @@
           "type": "array"
         }
       },
-      "required": ["configOptions"],
+      "required": [
+        "configOptions"
+      ],
       "type": "object",
       "x-method": "session/set_config_option",
       "x-side": "agent"
@@ -3172,7 +4156,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "modeId": {
           "allOf": [
@@ -3191,7 +4178,10 @@
           "description": "The ID of the session to set the mode for."
         }
       },
-      "required": ["sessionId", "modeId"],
+      "required": [
+        "sessionId",
+        "modeId"
+      ],
       "type": "object",
       "x-method": "session/set_mode",
       "x-side": "agent"
@@ -3202,7 +4192,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -3245,13 +4238,18 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "terminalId": {
           "type": "string"
         }
       },
-      "required": ["terminalId"],
+      "required": [
+        "terminalId"
+      ],
       "type": "object"
     },
     "TerminalExitStatus": {
@@ -3260,17 +4258,26 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "exitCode": {
           "description": "The process exit code (may be null if terminated by signal).",
           "format": "uint32",
           "minimum": 0,
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "signal": {
           "description": "The signal that terminated the process (may be null if exited normally).",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "type": "object"
@@ -3281,7 +4288,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -3296,7 +4306,10 @@
           "type": "string"
         }
       },
-      "required": ["sessionId", "terminalId"],
+      "required": [
+        "sessionId",
+        "terminalId"
+      ],
       "type": "object",
       "x-method": "terminal/output",
       "x-side": "client"
@@ -3307,7 +4320,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "exitStatus": {
           "anyOf": [
@@ -3329,7 +4345,10 @@
           "type": "boolean"
         }
       },
-      "required": ["output", "truncated"],
+      "required": [
+        "output",
+        "truncated"
+      ],
       "type": "object",
       "x-method": "terminal/output",
       "x-side": "client"
@@ -3340,7 +4359,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "annotations": {
           "anyOf": [
@@ -3356,7 +4378,9 @@
           "type": "string"
         }
       },
-      "required": ["text"],
+      "required": [
+        "text"
+      ],
       "type": "object"
     },
     "TextResourceContents": {
@@ -3365,10 +4389,16 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "mimeType": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "text": {
           "type": "string"
@@ -3377,7 +4407,10 @@
           "type": "string"
         }
       },
-      "required": ["text", "uri"],
+      "required": [
+        "text",
+        "uri"
+      ],
       "type": "object"
     },
     "ToolCall": {
@@ -3386,7 +4419,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "description": "Content produced by the tool call.",
@@ -3437,7 +4473,10 @@
           "description": "Unique identifier for this tool call within the session."
         }
       },
-      "required": ["toolCallId", "title"],
+      "required": [
+        "toolCallId",
+        "title"
+      ],
       "type": "object"
     },
     "ToolCallContent": {
@@ -3459,7 +4498,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -3475,7 +4516,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         },
         {
@@ -3491,7 +4534,9 @@
               "type": "string"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "type": "object"
         }
       ]
@@ -3506,20 +4551,28 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "line": {
           "description": "Optional line number within the file.",
           "format": "uint32",
           "minimum": 0,
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "path": {
           "description": "The file path being accessed or modified.",
           "type": "string"
         }
       },
-      "required": ["path"],
+      "required": [
+        "path"
+      ],
       "type": "object"
     },
     "ToolCallStatus": {
@@ -3553,14 +4606,20 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "description": "Replace the content collection.",
           "items": {
             "$ref": "#/$defs/ToolCallContent"
           },
-          "type": ["array", "null"]
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "kind": {
           "anyOf": [
@@ -3578,7 +4637,10 @@
           "items": {
             "$ref": "#/$defs/ToolCallLocation"
           },
-          "type": ["array", "null"]
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "rawInput": {
           "description": "Update the raw input."
@@ -3599,7 +4661,10 @@
         },
         "title": {
           "description": "Update the human-readable title.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "toolCallId": {
           "allOf": [
@@ -3610,7 +4675,9 @@
           "description": "The ID of the tool call being updated."
         }
       },
-      "required": ["toolCallId"],
+      "required": [
+        "toolCallId"
+      ],
       "type": "object"
     },
     "ToolKind": {
@@ -3674,14 +4741,19 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "hint": {
           "description": "A hint to display when the input hasn't been provided yet",
           "type": "string"
         }
       },
-      "required": ["hint"],
+      "required": [
+        "hint"
+      ],
       "type": "object"
     },
     "WaitForTerminalExitRequest": {
@@ -3690,7 +4762,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "sessionId": {
           "allOf": [
@@ -3705,7 +4780,10 @@
           "type": "string"
         }
       },
-      "required": ["sessionId", "terminalId"],
+      "required": [
+        "sessionId",
+        "terminalId"
+      ],
       "type": "object",
       "x-method": "terminal/wait_for_exit",
       "x-side": "client"
@@ -3716,17 +4794,26 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "exitCode": {
           "description": "The process exit code (may be null if terminated by signal).",
           "format": "uint32",
           "minimum": 0,
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "signal": {
           "description": "The signal that terminated the process (may be null if exited normally).",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "type": "object",
@@ -3739,7 +4826,10 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "content": {
           "description": "The text content to write to the file.",
@@ -3758,7 +4848,11 @@
           "description": "The session ID for this request."
         }
       },
-      "required": ["sessionId", "path", "content"],
+      "required": [
+        "sessionId",
+        "path",
+        "content"
+      ],
       "type": "object",
       "x-method": "fs/write_text_file",
       "x-side": "client"
@@ -3769,12 +4863,599 @@
         "_meta": {
           "additionalProperties": true,
           "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
-          "type": ["object", "null"]
+          "type": [
+            "object",
+            "null"
+          ]
         }
       },
       "type": "object",
       "x-method": "fs/write_text_file",
       "x-side": "client"
+    },
+    "ElicitationUrlCapabilities": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nURL-based elicitation capabilities.",
+      "type": "object",
+      "properties": {
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "ElicitationFormMode": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nForm-based elicitation mode where the client renders a form from the provided schema.",
+      "type": "object",
+      "properties": {
+        "requestedSchema": {
+          "description": "A JSON Schema describing the form fields to present to the user.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationSchema"
+            }
+          ]
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Session",
+          "description": "Tied to a session, optionally to a specific tool call within that session.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationSessionScope"
+            }
+          ]
+        },
+        {
+          "title": "Request",
+          "description": "Tied to a specific JSON-RPC request outside of a session\n(e.g., during auth/configuration phases before any session is started).",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationRequestScope"
+            }
+          ]
+        }
+      ],
+      "required": [
+        "requestedSchema"
+      ]
+    },
+    "ElicitationUrlMode": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nURL-based elicitation mode where the client directs the user to a URL.",
+      "type": "object",
+      "properties": {
+        "elicitationId": {
+          "description": "The unique identifier for this elicitation.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationId"
+            }
+          ]
+        },
+        "url": {
+          "description": "The URL to direct the user to.",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Session",
+          "description": "Tied to a session, optionally to a specific tool call within that session.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationSessionScope"
+            }
+          ]
+        },
+        {
+          "title": "Request",
+          "description": "Tied to a specific JSON-RPC request outside of a session\n(e.g., during auth/configuration phases before any session is started).",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationRequestScope"
+            }
+          ]
+        }
+      ],
+      "required": [
+        "elicitationId",
+        "url"
+      ]
+    },
+    "ElicitationAcceptAction": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nThe user accepted the elicitation and provided content.",
+      "type": "object",
+      "properties": {
+        "content": {
+          "description": "The user-provided content, if any, as an object matching the requested schema.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/$defs/ElicitationContentValue"
+          }
+        }
+      }
+    },
+    "ElicitationContentValue": {
+      "description": "Allowed wire representations for [`ElicitationContentValue`].",
+      "anyOf": [
+        {
+          "title": "String",
+          "description": "String value accepted in elicitation response content.",
+          "type": "string"
+        },
+        {
+          "title": "Integer",
+          "description": "Integer value accepted in elicitation response content.",
+          "type": "integer",
+          "format": "int64"
+        },
+        {
+          "title": "Number",
+          "description": "Number value accepted in elicitation response content.",
+          "type": "number",
+          "format": "double"
+        },
+        {
+          "title": "Boolean",
+          "description": "Boolean value accepted in elicitation response content.",
+          "type": "boolean"
+        },
+        {
+          "title": "StringArray",
+          "description": "String array value accepted in elicitation response content.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "ElicitationRequestScope": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nRequest-scoped elicitation, tied to a specific JSON-RPC request outside of a session\n(e.g., during auth/configuration phases before any session is started).",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "description": "The request this elicitation is tied to.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/RequestId"
+            }
+          ]
+        }
+      },
+      "required": [
+        "requestId"
+      ]
+    },
+    "ElicitationSessionScope": {
+      "description": "**UNSTABLE**\n\nThis capability is not part of the spec yet, and may be removed or changed at any point.\n\nSession-scoped elicitation, optionally tied to a specific tool call.\n\nWhen `tool_call_id` is set, the elicitation is tied to a specific tool call.\nThis is useful when an agent receives an elicitation from an MCP server\nduring a tool call and needs to redirect it to the user.",
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "description": "The session this elicitation is tied to.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/SessionId"
+            }
+          ]
+        },
+        "toolCallId": {
+          "description": "Optional tool call within the session.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ToolCallId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sessionId"
+      ]
+    },
+    "ElicitationStringType": {
+      "description": "Items definition for untitled multi-select enum properties.",
+      "oneOf": [
+        {
+          "description": "String schema type.",
+          "type": "string",
+          "const": "string"
+        }
+      ]
+    },
+    "StringFormat": {
+      "description": "String format types for string properties in elicitation schemas.",
+      "anyOf": [
+        {
+          "description": "Email address format.",
+          "type": "string",
+          "const": "email"
+        },
+        {
+          "description": "URI format.",
+          "type": "string",
+          "const": "uri"
+        },
+        {
+          "description": "Date format (YYYY-MM-DD).",
+          "type": "string",
+          "const": "date"
+        },
+        {
+          "description": "Date-time format (ISO 8601).",
+          "type": "string",
+          "const": "date-time"
+        },
+        {
+          "title": "other",
+          "description": "Custom or future string format.\n\nUnknown formats are preserved. Implementations that do not understand a\nformat should treat it as an annotation rather than rejecting the schema.",
+          "type": "string"
+        }
+      ]
+    },
+    "StringPropertySchema": {
+      "description": "Schema for string properties in an elicitation form.\n\nWhen `enum` or `oneOf` is set, this represents a single-select enum\nwith `\"type\": \"string\"`.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Optional title for the property.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "Human-readable description.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minLength": {
+          "description": "Minimum string length.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "maxLength": {
+          "description": "Maximum string length.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "pattern": {
+          "description": "Pattern the string must match.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "format": {
+          "description": "String format.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StringFormat"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {
+          "description": "Default value.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "enum": {
+          "description": "Enum values for untitled single-select enums.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "oneOf": {
+          "description": "Titled enum options for titled single-select enums.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/EnumOption"
+          }
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "NumberPropertySchema": {
+      "description": "Schema for number (floating-point) properties in an elicitation form.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Optional title for the property.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "Human-readable description.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minimum": {
+          "description": "Minimum value (inclusive).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "maximum": {
+          "description": "Maximum value (inclusive).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "default": {
+          "description": "Default value.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "IntegerPropertySchema": {
+      "description": "Schema for integer properties in an elicitation form.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Optional title for the property.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "Human-readable description.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minimum": {
+          "description": "Minimum value (inclusive).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "maximum": {
+          "description": "Maximum value (inclusive).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "default": {
+          "description": "Default value.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "BooleanPropertySchema": {
+      "description": "Schema for boolean properties in an elicitation form.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Optional title for the property.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "Human-readable description.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "default": {
+          "description": "Default value.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      }
+    },
+    "MultiSelectPropertySchema": {
+      "description": "Schema for multi-select (array) properties in an elicitation form.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Optional title for the property.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "Human-readable description.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minItems": {
+          "description": "Minimum number of items to select.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "maxItems": {
+          "description": "Maximum number of items to select.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "items": {
+          "description": "The items definition describing allowed values.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/MultiSelectItems"
+            }
+          ]
+        },
+        "default": {
+          "description": "Default selected values.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "items"
+      ]
+    },
+    "TitledMultiSelectItems": {
+      "description": "Items definition for titled multi-select enum properties.",
+      "type": "object",
+      "properties": {
+        "anyOf": {
+          "description": "Titled enum options.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EnumOption"
+          }
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "anyOf"
+      ]
+    },
+    "UntitledMultiSelectItems": {
+      "description": "Items definition for untitled multi-select enum properties.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Item type discriminator. Must be `\"string\"`.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ElicitationStringType"
+            }
+          ]
+        },
+        "enum": {
+          "description": "Allowed enum values.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "_meta": {
+          "description": "The _meta property is reserved by ACP to allow clients and agents to attach additional\nmetadata to their interactions. Implementations MUST NOT make assumptions about values at\nthese keys.\n\nSee protocol docs: [Extensibility](https://agentclientprotocol.com/protocol/extensibility)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "type",
+        "enum"
+      ]
     }
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -3809,11 +5490,15 @@
       "description": "A message (request, response, or notification) with `\"jsonrpc\": \"2.0\"` specified as\n[required by JSON-RPC 2.0 Specification][1].\n\n[1]: https://www.jsonrpc.org/specification#compatibility",
       "properties": {
         "jsonrpc": {
-          "enum": ["2.0"],
+          "enum": [
+            "2.0"
+          ],
           "type": "string"
         }
       },
-      "required": ["jsonrpc"],
+      "required": [
+        "jsonrpc"
+      ],
       "title": "Agent",
       "type": "object"
     },
@@ -3847,11 +5532,15 @@
       "description": "A message (request, response, or notification) with `\"jsonrpc\": \"2.0\"` specified as\n[required by JSON-RPC 2.0 Specification][1].\n\n[1]: https://www.jsonrpc.org/specification#compatibility",
       "properties": {
         "jsonrpc": {
-          "enum": ["2.0"],
+          "enum": [
+            "2.0"
+          ],
           "type": "string"
         }
       },
-      "required": ["jsonrpc"],
+      "required": [
+        "jsonrpc"
+      ],
       "title": "Client",
       "type": "object"
     }

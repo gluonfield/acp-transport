@@ -22,6 +22,8 @@ const (
 )
 
 const (
+	ClientMethodElicitationComplete      = "elicitation/complete"
+	ClientMethodElicitationCreate        = "elicitation/create"
 	ClientMethodFSReadTextFile           = "fs/read_text_file"
 	ClientMethodFSWriteTextFile          = "fs/write_text_file"
 	ClientMethodSessionRequestPermission = "session/request_permission"
@@ -113,15 +115,23 @@ type BlobResourceContents struct {
 	URI      string         `json:"uri"`
 }
 
+type BooleanPropertySchema struct {
+	Meta        map[string]any `json:"_meta,omitempty"`
+	Default     bool           `json:"default,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Title       string         `json:"title,omitempty"`
+}
+
 type CancelNotification struct {
 	Meta      map[string]any `json:"_meta,omitempty"`
 	SessionID SessionID      `json:"sessionId"`
 }
 
 type ClientCapabilities struct {
-	Meta     map[string]any          `json:"_meta,omitempty"`
-	FS       *FileSystemCapabilities `json:"fs,omitempty"`
-	Terminal bool                    `json:"terminal,omitempty"`
+	Meta        map[string]any           `json:"_meta,omitempty"`
+	Elicitation *ElicitationCapabilities `json:"elicitation,omitempty"`
+	FS          *FileSystemCapabilities  `json:"fs,omitempty"`
+	Terminal    bool                     `json:"terminal,omitempty"`
 }
 
 type ClientNotification struct {
@@ -146,6 +156,11 @@ type CloseSessionResponse struct {
 	Meta map[string]any `json:"_meta,omitempty"`
 }
 
+type CompleteElicitationNotification struct {
+	Meta          map[string]any `json:"_meta,omitempty"`
+	ElicitationID ElicitationID  `json:"elicitationId"`
+}
+
 type ConfigOptionUpdate struct {
 	Meta          map[string]any        `json:"_meta,omitempty"`
 	ConfigOptions []SessionConfigOption `json:"configOptions"`
@@ -161,6 +176,22 @@ type ContentBlock json.RawMessage
 type ContentChunk struct {
 	Meta    map[string]any `json:"_meta,omitempty"`
 	Content ContentBlock   `json:"content"`
+}
+
+type CreateElicitationRequest struct {
+	Meta            map[string]any     `json:"_meta,omitempty"`
+	Message         string             `json:"message"`
+	Mode            string             `json:"mode"`
+	RequestID       *RequestID         `json:"requestId,omitempty"`
+	RequestedSchema *ElicitationSchema `json:"requestedSchema,omitempty"`
+	SessionID       *SessionID         `json:"sessionId,omitempty"`
+	ToolCallID      *ToolCallID        `json:"toolCallId,omitempty"`
+}
+
+type CreateElicitationResponse struct {
+	Meta    map[string]any                     `json:"_meta,omitempty"`
+	Action  string                             `json:"action"`
+	Content map[string]ElicitationContentValue `json:"content,omitempty"`
 }
 
 type CreateTerminalRequest struct {
@@ -190,6 +221,92 @@ type Diff struct {
 	Path    string         `json:"path"`
 }
 
+type ElicitationAcceptAction struct {
+	Content map[string]ElicitationContentValue `json:"content,omitempty"`
+}
+
+type ElicitationCapabilities struct {
+	Meta map[string]any               `json:"_meta,omitempty"`
+	Form *ElicitationFormCapabilities `json:"form,omitempty"`
+	URL  *ElicitationURLCapabilities  `json:"url,omitempty"`
+}
+
+type ElicitationContentValue = json.RawMessage
+
+type ElicitationFormCapabilities struct {
+	Meta map[string]any `json:"_meta,omitempty"`
+}
+
+type ElicitationFormMode struct {
+	RequestID       *RequestID        `json:"requestId,omitempty"`
+	RequestedSchema ElicitationSchema `json:"requestedSchema"`
+	SessionID       *SessionID        `json:"sessionId,omitempty"`
+	ToolCallID      *ToolCallID       `json:"toolCallId,omitempty"`
+}
+
+type ElicitationID string
+
+type ElicitationPropertySchema struct {
+	Meta        map[string]any    `json:"_meta,omitempty"`
+	Default     json.RawMessage   `json:"default,omitempty"`
+	Description string            `json:"description,omitempty"`
+	Enum        []string          `json:"enum,omitempty"`
+	Format      *StringFormat     `json:"format,omitempty"`
+	Items       *MultiSelectItems `json:"items,omitempty"`
+	MaxItems    int               `json:"maxItems,omitempty"`
+	MaxLength   int               `json:"maxLength,omitempty"`
+	Maximum     json.RawMessage   `json:"maximum,omitempty"`
+	MinItems    int               `json:"minItems,omitempty"`
+	MinLength   int               `json:"minLength,omitempty"`
+	Minimum     json.RawMessage   `json:"minimum,omitempty"`
+	OneOf       []EnumOption      `json:"oneOf,omitempty"`
+	Pattern     string            `json:"pattern,omitempty"`
+	Title       string            `json:"title,omitempty"`
+	Type        string            `json:"type"`
+}
+
+type ElicitationRequestScope struct {
+	RequestID RequestID `json:"requestId"`
+}
+
+type ElicitationSchema struct {
+	Meta        map[string]any                       `json:"_meta,omitempty"`
+	Description string                               `json:"description,omitempty"`
+	Properties  map[string]ElicitationPropertySchema `json:"properties,omitempty"`
+	Required    []string                             `json:"required,omitempty"`
+	Title       string                               `json:"title,omitempty"`
+	Type        *ElicitationSchemaType               `json:"type,omitempty"`
+}
+
+type ElicitationSchemaType string
+
+const (
+	ElicitationSchemaTypeObject ElicitationSchemaType = "object"
+)
+
+type ElicitationSessionScope struct {
+	SessionID  SessionID   `json:"sessionId"`
+	ToolCallID *ToolCallID `json:"toolCallId,omitempty"`
+}
+
+type ElicitationStringType string
+
+const (
+	ElicitationStringTypeString ElicitationStringType = "string"
+)
+
+type ElicitationURLCapabilities struct {
+	Meta map[string]any `json:"_meta,omitempty"`
+}
+
+type ElicitationURLMode struct {
+	ElicitationID ElicitationID `json:"elicitationId"`
+	RequestID     *RequestID    `json:"requestId,omitempty"`
+	SessionID     *SessionID    `json:"sessionId,omitempty"`
+	ToolCallID    *ToolCallID   `json:"toolCallId,omitempty"`
+	URL           string        `json:"url"`
+}
+
 type EmbeddedResource struct {
 	Meta        map[string]any           `json:"_meta,omitempty"`
 	Annotations *Annotations             `json:"annotations,omitempty"`
@@ -197,6 +314,12 @@ type EmbeddedResource struct {
 }
 
 type EmbeddedResourceResource json.RawMessage
+
+type EnumOption struct {
+	Meta  map[string]any `json:"_meta,omitempty"`
+	Const string         `json:"const"`
+	Title string         `json:"title"`
+}
 
 type EnvVariable struct {
 	Meta  map[string]any `json:"_meta,omitempty"`
@@ -268,6 +391,15 @@ type InitializeResponse struct {
 	AgentInfo         *Implementation    `json:"agentInfo,omitempty"`
 	AuthMethods       []AuthMethod       `json:"authMethods,omitempty"`
 	ProtocolVersion   ProtocolVersion    `json:"protocolVersion"`
+}
+
+type IntegerPropertySchema struct {
+	Meta        map[string]any `json:"_meta,omitempty"`
+	Default     int64          `json:"default,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Maximum     int64          `json:"maximum,omitempty"`
+	Minimum     int64          `json:"minimum,omitempty"`
+	Title       string         `json:"title,omitempty"`
 }
 
 type KillTerminalRequest struct {
@@ -347,6 +479,23 @@ type MCPServerStdio struct {
 	Name    string         `json:"name"`
 }
 
+type MultiSelectItems struct {
+	Meta  map[string]any         `json:"_meta,omitempty"`
+	AnyOf []EnumOption           `json:"anyOf,omitempty"`
+	Enum  []string               `json:"enum,omitempty"`
+	Type  *ElicitationStringType `json:"type,omitempty"`
+}
+
+type MultiSelectPropertySchema struct {
+	Meta        map[string]any   `json:"_meta,omitempty"`
+	Default     []string         `json:"default,omitempty"`
+	Description string           `json:"description,omitempty"`
+	Items       MultiSelectItems `json:"items"`
+	MaxItems    int              `json:"maxItems,omitempty"`
+	MinItems    int              `json:"minItems,omitempty"`
+	Title       string           `json:"title,omitempty"`
+}
+
 type NewSessionRequest struct {
 	Meta       map[string]any `json:"_meta,omitempty"`
 	Cwd        string         `json:"cwd"`
@@ -358,6 +507,15 @@ type NewSessionResponse struct {
 	ConfigOptions []SessionConfigOption `json:"configOptions,omitempty"`
 	Modes         *SessionModeState     `json:"modes,omitempty"`
 	SessionID     SessionID             `json:"sessionId"`
+}
+
+type NumberPropertySchema struct {
+	Meta        map[string]any `json:"_meta,omitempty"`
+	Default     float64        `json:"default,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Maximum     float64        `json:"maximum,omitempty"`
+	Minimum     float64        `json:"minimum,omitempty"`
+	Title       string         `json:"title,omitempty"`
 }
 
 type PermissionOption struct {
@@ -634,6 +792,28 @@ const (
 	StopReasonCancelled       StopReason = "cancelled"
 )
 
+type StringFormat string
+
+const (
+	StringFormatEmail    StringFormat = "email"
+	StringFormatURI      StringFormat = "uri"
+	StringFormatDate     StringFormat = "date"
+	StringFormatDateTime StringFormat = "date-time"
+)
+
+type StringPropertySchema struct {
+	Meta        map[string]any `json:"_meta,omitempty"`
+	Default     string         `json:"default,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Enum        []string       `json:"enum,omitempty"`
+	Format      *StringFormat  `json:"format,omitempty"`
+	MaxLength   int            `json:"maxLength,omitempty"`
+	MinLength   int            `json:"minLength,omitempty"`
+	OneOf       []EnumOption   `json:"oneOf,omitempty"`
+	Pattern     string         `json:"pattern,omitempty"`
+	Title       string         `json:"title,omitempty"`
+}
+
 type Terminal struct {
 	Meta       map[string]any `json:"_meta,omitempty"`
 	TerminalID string         `json:"terminalId"`
@@ -669,6 +849,11 @@ type TextResourceContents struct {
 	MimeType string         `json:"mimeType,omitempty"`
 	Text     string         `json:"text"`
 	URI      string         `json:"uri"`
+}
+
+type TitledMultiSelectItems struct {
+	Meta  map[string]any `json:"_meta,omitempty"`
+	AnyOf []EnumOption   `json:"anyOf"`
 }
 
 type ToolCall struct {
@@ -732,6 +917,12 @@ const (
 type UnstructuredCommandInput struct {
 	Meta map[string]any `json:"_meta,omitempty"`
 	Hint string         `json:"hint"`
+}
+
+type UntitledMultiSelectItems struct {
+	Meta map[string]any        `json:"_meta,omitempty"`
+	Enum []string              `json:"enum"`
+	Type ElicitationStringType `json:"type"`
 }
 
 type WaitForTerminalExitRequest struct {
