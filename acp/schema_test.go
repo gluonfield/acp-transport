@@ -196,6 +196,19 @@ func TestDecodeCreateElicitationRequestMode(t *testing.T) {
 	if req.RequestedSchema == nil || req.RequestedSchema.Properties["name"].Type != "string" {
 		t.Fatalf("schema = %#v", req.RequestedSchema)
 	}
+
+	raw = json.RawMessage(`{
+		"mode": "url",
+		"message": "Complete sign in",
+		"elicitationId": "auth-1",
+		"url": "https://example.test/auth"
+	}`)
+	if err := json.Unmarshal(raw, &req); err != nil {
+		t.Fatal(err)
+	}
+	if req.Mode != "url" || req.ElicitationID == nil || *req.ElicitationID != "auth-1" || req.URL != "https://example.test/auth" {
+		t.Fatalf("url request = %#v", req)
+	}
 }
 
 func TestDecodeTextContentBlock(t *testing.T) {

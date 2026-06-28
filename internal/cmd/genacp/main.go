@@ -221,7 +221,7 @@ func collectObjectProperties(def *schemaDef, out map[string]*schemaDef, seen map
 		return
 	}
 	if def.Ref != "" {
-		name := refName(def.Ref)
+		name := schemaRefName(def.Ref)
 		if seen[name] {
 			return
 		}
@@ -460,7 +460,11 @@ func nullable(def *schemaDef) bool {
 }
 
 func refName(ref string) string {
-	return exportedName(strings.TrimPrefix(ref, "#/$defs/"))
+	return exportedName(schemaRefName(ref))
+}
+
+func schemaRefName(ref string) string {
+	return strings.TrimPrefix(ref, "#/$defs/")
 }
 
 var wordRE = regexp.MustCompile(`[A-Za-z0-9]+`)

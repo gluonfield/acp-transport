@@ -180,12 +180,14 @@ type ContentChunk struct {
 
 type CreateElicitationRequest struct {
 	Meta            map[string]any     `json:"_meta,omitempty"`
+	ElicitationID   *ElicitationID     `json:"elicitationId,omitempty"`
 	Message         string             `json:"message"`
 	Mode            string             `json:"mode"`
 	RequestID       *RequestID         `json:"requestId,omitempty"`
 	RequestedSchema *ElicitationSchema `json:"requestedSchema,omitempty"`
 	SessionID       *SessionID         `json:"sessionId,omitempty"`
 	ToolCallID      *ToolCallID        `json:"toolCallId,omitempty"`
+	URL             string             `json:"url,omitempty"`
 }
 
 type CreateElicitationResponse struct {
