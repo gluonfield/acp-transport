@@ -95,6 +95,23 @@ func TestDecodeSessionUpdate(t *testing.T) {
 	if _, ok := unknown.(UnknownSessionUpdate); !ok {
 		t.Fatalf("unknown decoded as %T", unknown)
 	}
+
+	rawMessage := json.RawMessage(`{
+		"sessionUpdate": "agent_message_chunk",
+		"messageId": "message-1",
+		"content": {"type": "text", "text": "hello"}
+	}`)
+	decoded, err = DecodeSessionUpdate(rawMessage)
+	if err != nil {
+		t.Fatal(err)
+	}
+	message, ok := decoded.(AgentMessageChunkUpdate)
+	if !ok {
+		t.Fatalf("decoded type = %T, want AgentMessageChunkUpdate", decoded)
+	}
+	if message.MessageID != "message-1" {
+		t.Fatalf("messageId = %q, want message-1", message.MessageID)
+	}
 }
 
 func TestDecodeRequestPermissionToolCallContent(t *testing.T) {

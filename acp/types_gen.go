@@ -174,8 +174,9 @@ type Content struct {
 type ContentBlock json.RawMessage
 
 type ContentChunk struct {
-	Meta    map[string]any `json:"_meta,omitempty"`
-	Content ContentBlock   `json:"content"`
+	Meta      map[string]any `json:"_meta,omitempty"`
+	Content   ContentBlock   `json:"content"`
+	MessageID string         `json:"messageId,omitempty"`
 }
 
 type CreateElicitationRequest struct {
