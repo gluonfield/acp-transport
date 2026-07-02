@@ -1229,7 +1229,8 @@
         }
       },
       "required": [
-        "content"
+        "content",
+        "messageId"
       ],
       "type": "object"
     },
