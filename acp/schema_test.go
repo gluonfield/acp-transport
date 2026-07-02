@@ -114,6 +114,25 @@ func TestDecodeSessionUpdate(t *testing.T) {
 	}
 }
 
+func TestDecodeContentChunkRequiresMessageID(t *testing.T) {
+	tests := []SessionUpdateKind{
+		SessionUpdateUserMessageChunk,
+		SessionUpdateAgentMessageChunk,
+		SessionUpdateAgentThoughtChunk,
+	}
+	for _, kind := range tests {
+		t.Run(string(kind), func(t *testing.T) {
+			raw := json.RawMessage(`{
+				"sessionUpdate": "` + string(kind) + `",
+				"content": {"type": "text", "text": "hello"}
+			}`)
+			if _, err := DecodeSessionUpdate(raw); err == nil {
+				t.Fatal("DecodeSessionUpdate succeeded without messageId")
+			}
+		})
+	}
+}
+
 func TestDecodeRequestPermissionToolCallContent(t *testing.T) {
 	raw := json.RawMessage(`{
 		"sessionId": "session-1",

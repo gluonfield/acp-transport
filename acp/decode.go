@@ -110,7 +110,31 @@ func decodeUpdateAs[T DecodedSessionUpdate, PT sessionUpdatePtr[T]](raw json.Raw
 		return nil, err
 	}
 	PT(out).setRaw(raw)
-	return *out, nil
+	value := *out
+	if err := validateDecodedSessionUpdate(value); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
+func validateDecodedSessionUpdate(update DecodedSessionUpdate) error {
+	switch u := update.(type) {
+	case UserMessageChunkUpdate:
+		return validateContentChunkMessageID(u.SessionUpdateKind(), u.ContentChunk)
+	case AgentMessageChunkUpdate:
+		return validateContentChunkMessageID(u.SessionUpdateKind(), u.ContentChunk)
+	case AgentThoughtChunkUpdate:
+		return validateContentChunkMessageID(u.SessionUpdateKind(), u.ContentChunk)
+	default:
+		return nil
+	}
+}
+
+func validateContentChunkMessageID(kind SessionUpdateKind, chunk ContentChunk) error {
+	if chunk.MessageID == "" {
+		return fmt.Errorf("%s messageId is required", kind)
+	}
+	return nil
 }
 
 var sessionUpdateDecoders = map[SessionUpdateKind]func(json.RawMessage) (DecodedSessionUpdate, error){
